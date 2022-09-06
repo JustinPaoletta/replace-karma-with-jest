@@ -124,3 +124,4 @@ To replace Karma with Jest in your Angular project follow these steps
 <br>
 
 ### Thanks For Reading :)
+Written by Justin Paoletta
