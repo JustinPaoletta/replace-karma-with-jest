@@ -2,26 +2,125 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
 
-## Development server
+## Instructions 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+To replace Karma with Jest in your Angular project follow these steps
 
-## Code scaffolding
+1) Delete these files: 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+    - karma.conf.js
+    - src/test.ts
 
-## Build
+<br>
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+2) Remove the following from dev dependencies in package.json:
 
-## Running unit tests
+    "@types/jasmine"\
+    "jasmine-core"\
+    "karma"\
+    "karma-chrome-launcher"\
+    "karma-coverage"\
+    "karma-jasmine"\
+    "karma-jasmine-html-reporter"
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+<br>
 
-## Running end-to-end tests
+3) Install Jest:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+    ```
+    npm i -D jest @types/jest ts-jest @angular-builders/jest
+    ```
 
-## Further help
+<br>
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+4) Create a Jest Config at the project root level named jest.config.js:
+
+    /** content of jest.config.js */
+
+    ```
+    module.exports = {
+
+    collectCoverageFrom: [
+        '<rootDir>/src/app/**/*.ts',
+        '!<rootDir>/src/app/**/index.ts',
+        '!<rootDir>/src/app/**/*.module.ts'
+    ],
+
+    coverageDirectory: 'coverage',
+
+    coverageReporters: [
+        'lcov',
+        'text-summary'
+    ],
+
+    testPathIgnorePatterns: [
+        '<rootDir>/coverage/',
+        '<rootDir>/dist/',
+        '<rootDir>/e2e/',
+        '<rootDir>/node_modules/',
+        '<rootDir>/src/app/*.(js|scss)'
+    ],
+
+    testMatch: [
+        '<rootDir>/src/app/*.spec.ts',
+        '<rootDir>/src/app/**/*.spec.ts'
+    ]
+    };
+    ```
+
+<br>
+
+5) In tsconfig.spec.json:
+
+    - Replace jasmine with jest in the compilerOptions.types array
+
+    - Add this key pair in compilerOptions: "module": "commonjs",
+
+    - Remove "src/test.ts" from the files array
+
+<br>
+
+6) Edit angular.json:
+
+    Remove projects.projectname.architect.test and replace with:
+
+    ```
+    "test": {
+        "builder": "@angular-builders/jest:run",
+        "options": {}
+    },
+    ```
+
+<br>
+
+7) Delete node_modules and re-install
+
+    ```
+    npm i
+    ```
+
+<br>
+
+8) Run your tests:
+
+    ```
+    npm run test
+    ```
+
+<br>
+
+9) You can also run the tests with coverage by adding a script in package json:
+    
+    ```
+    "test:cov": "ng test --coverage"
+    ```
+
+    Execute the script on the command line:
+
+    ```
+    npm run test:cov
+    ```
+
+<br>
+
+### Thanks For Reading :)
