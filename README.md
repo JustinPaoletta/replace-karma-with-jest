@@ -9,7 +9,7 @@ To replace Karma with Jest in your Angular project follow these steps
 1) Delete these files: 
 
     - karma.conf.js
-    - src/test.ts
+    - src/test.ts (if it exists)
 
 <br>
 
@@ -28,7 +28,7 @@ To replace Karma with Jest in your Angular project follow these steps
 3) Install Jest:
 
     ```
-    npm i -D jest @types/jest ts-jest @angular-builders/jest
+    npm i -D jest @types/jest ts-jest @angular-builders/jest jest-preset-angular
     ```
 
 <br>
@@ -76,7 +76,7 @@ To replace Karma with Jest in your Angular project follow these steps
 
     - Add this key pair in compilerOptions: "module": "commonjs",
 
-    - Remove "src/test.ts" from the files array
+    - Remove "src/test.ts" from the files array (if it exists)
 
 <br>
 
